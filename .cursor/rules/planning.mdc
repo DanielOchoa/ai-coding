@@ -1,0 +1,57 @@
+---
+description: "Save or persist a plan to the plans directory. Use when asked to 'save this plan', 'persist this plan', or 'save plan'."
+alwaysApply: false
+---
+
+# Planning
+
+When asked to save or persist a plan, write it to the `plans/` directory at the project root.
+
+## Naming
+
+File format: `MM-DD-YY-short-name.md`
+
+- Date is the current date
+- Short name is a lowercase, hyphen-separated summary (3-5 words max)
+- Example: `03-27-26-generalize-code-review-skill.md`
+
+## Before Creating
+
+List the `plans/` directory first. If an existing file matches the topic (same short name or closely related), update that file instead of creating a new one.
+
+## Content Structure
+
+Each plan file should contain:
+
+```markdown
+# <Plan Title>
+
+**Date:** <YYYY-MM-DD>
+**Status:** <In Progress | Complete | Abandoned>
+**Branch:** <git branch if applicable>
+
+## Summary
+<1-3 sentences describing the goal>
+
+## Key Decisions
+<Bullet list of important choices made during planning>
+
+## Target Structure
+<File tree or diagram showing the end state, if applicable>
+
+## Changes
+<Numbered list of specific changes to make>
+```
+
+## Updating Existing Plans
+
+When updating, preserve the original content and either:
+- Update the **Status** field
+- Append a `## Updates` section at the bottom with dated entries
+- Revise the **Changes** list if the scope changed
+
+## Plan Hygiene
+
+A plan should describe the end state cleanly, not accumulate commentary about intermediate steps that are already done.
+Remove completed items that are no longer relevant rather than striking them through or annotating them.
+If a change was done in a prior commit and no longer appears in the diff, it does not belong in the plan.

@@ -1,0 +1,18 @@
+---
+description: "Review GitHub PRs for code quality, architecture, and standards. Use when reviewing a PR, checking a pull request, or given a GitHub PR URL."
+alwaysApply: false
+---
+
+# Code Review
+
+When asked to review a PR, read and follow the code-review skill at `.cursor/skills/code-review/SKILL.md`.
+
+The skill orchestrates a multi-agent PR review: gathers context (PR metadata, diff), triages changed files, dispatches 5 focused reviewer subagents in parallel, and consolidates findings into a unified report.
+
+Reviewer subagents (`~/.cursor/agents/review-*.md`):
+
+- `review-architecture` — correctness, SOLID, anti-patterns, code organization
+- `review-react-typescript` — hooks, components, TypeScript strictness, a11y, i18n
+- `review-security` — auth, injection, secrets, data exposure
+- `review-performance` — complexity, rendering, memory, I/O
+- `review-testing` — coverage gaps, test quality, determinism
