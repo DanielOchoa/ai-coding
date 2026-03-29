@@ -18,7 +18,7 @@ A streamlined 4-phase development workflow that parallelizes stack-aware agents 
 /plugin marketplace add <path-to-repo>/ai-coding
 
 # Then install the plugin:
-/plugin install dev@danielochoa-tools
+/plugin install dev@ai-coding
 ```
 
 After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`, `/dev:verify`.
@@ -179,7 +179,7 @@ Trigger with: "review this PR", "code review", or provide a GitHub PR URL.
 
 Create a directory under `plugins/<name>/` with `.claude-plugin/plugin.json`, `commands/`, and/or `agents/`.
 Add an entry to `.claude-plugin/marketplace.json` under `plugins[]`.
-After pushing, anyone can install with `/plugin install <name>@danielochoa-tools`.
+After pushing, anyone can install with `/plugin install <name>@ai-coding`.
 
 ### New rule
 
