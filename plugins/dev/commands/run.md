@@ -1,4 +1,4 @@
-# /dev — Full Development Workflow
+# /dev:run — Full Development Workflow
 
 You are orchestrating a 4-phase development workflow. The user has described a task. Execute all phases in order, biasing toward action. Do not ask unnecessary questions — only flag genuine ambiguities (0-3 max) inline in the plan.
 

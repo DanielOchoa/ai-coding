@@ -21,13 +21,13 @@ A streamlined 4-phase development workflow that parallelizes stack-aware agents 
 /plugin install dev@danielochoa-tools
 ```
 
-After marketplace install, commands become namespaced: `/dev:dev`, `/dev:scout`, `/dev:verify`.
+After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`, `/dev:verify`.
 
 ### Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/dev:dev [description]` | Full 4-phase workflow: Context → Plan → Build → Verify + Ship |
+| `/dev:run [description]` | Full 4-phase workflow: Context → Plan → Build → Verify + Ship |
 | `/dev:scout [area]` | Quick codebase exploration with stack detection |
 | `/dev:verify [scope]` | Post-implementation quality check + docs + commit |
 
@@ -43,7 +43,7 @@ After marketplace install, commands become namespaced: `/dev:dev`, `/dev:scout`,
 | bug-hunter | sonnet | Post-impl review — logic errors, edge cases (confidence >= 80) |
 | convention-enforcer | sonnet | CLAUDE.md compliance checking against the diff |
 
-### How `/dev:dev` Works
+### How `/dev:run` Works
 
 1. **Context** (~10s, parallel) — stack-detective + specialist + tailwind-ui (conditional)
 2. **Plan** (~30s) — implementation-planner (opus) produces one decisive blueprint
@@ -119,8 +119,8 @@ ai-coding/
 │   └── dev/                                    # Dev orchestrator plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json                     # Plugin manifest
-│       ├── commands/                            # Slash commands (/dev:dev, /dev:scout, /dev:verify)
-│       │   ├── dev.md
+│       ├── commands/                            # Slash commands (/dev:run, /dev:scout, /dev:verify)
+│       │   ├── run.md
 │       │   ├── scout.md
 │       │   └── verify.md
 │       └── agents/                              # Stack-aware agents
