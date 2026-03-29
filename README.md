@@ -1,9 +1,62 @@
 # ai-coding
 
-Personal AI coding workspace.
-Git-tracked, symlinked into `~/.cursor/` for global availability across all projects.
+Personal AI coding workspace — one repo for all AI dev tooling.
 
-## Quick Start
+Includes a **Claude Code plugin** (dev orchestrator with parallel stack-aware agents) and **Cursor tooling** (code review orchestrator with parallel reviewer agents). Claude Code ignores `.cursor/`; Cursor ignores `.claude-plugin/` and `commands/`/`agents/`. Both coexist cleanly.
+
+## Claude Code Plugin — Dev Orchestrator
+
+A streamlined 4-phase development workflow that parallelizes stack-aware agents and biases toward action.
+
+### Install
+
+```bash
+claude plugin add /Users/danielochoa/Documents/projects/ai-coding
+```
+
+Restart Claude Code to load the plugin.
+
+### Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/dev [description]` | Full 4-phase workflow: Context → Plan → Build → Verify + Ship |
+| `/scout [area]` | Quick codebase exploration with stack detection |
+| `/verify [scope]` | Post-implementation quality check + docs + commit |
+
+### Agents
+
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| stack-detective | sonnet | Fast project detection, reads CLAUDE.md, returns structured context |
+| rails-specialist | sonnet | Rails 8 code tracing — MVC, ActiveRecord, Turbo/Stimulus |
+| astro-specialist | sonnet | Astro 5.x code tracing — content collections, components, SSG |
+| tailwind-ui | sonnet | Tailwind CSS + frontend patterns, design system analysis |
+| implementation-planner | **opus** | One decisive blueprint — files, order, tests, risks |
+| bug-hunter | sonnet | Post-impl review — logic errors, edge cases (confidence >= 80) |
+| convention-enforcer | sonnet | CLAUDE.md compliance checking against the diff |
+
+### How `/dev` Works
+
+1. **Context** (~10s, parallel) — stack-detective + specialist + tailwind-ui (conditional)
+2. **Plan** (~30s) — implementation-planner (opus) produces one decisive blueprint
+3. **Build** (variable) — main session implements the plan, runs tests
+4. **Verify + Ship** (~20s) — bug-hunter + convention-enforcer, then docs-updater + git-commit-author
+
+### Design Principles
+
+- **Generic agents, runtime context**: Agents have stack-level expertise but zero business-specific knowledge. All project context comes from reading CLAUDE.md at runtime. Safe for a public repo.
+- **Opus for the planner, sonnet for the rest**: Maximum reasoning quality where it matters most.
+- **Reference existing agents**: docs-updater and git-commit-author are invoked from `~/.claude/agents/` — updates propagate automatically.
+- **4 phases, not 7**: No discovery phase, no 3-option architecture menus, no serial blocking questions.
+
+---
+
+## Cursor Tooling — Code Review Orchestrator
+
+Symlinked into `~/.cursor/` for global availability across all projects.
+
+### Quick Start
 
 ```bash
 # One-time setup: symlink everything into ~/.cursor/
@@ -53,10 +106,24 @@ The install script uses per-file/per-directory symlinks specifically to avoid re
 ```
 ai-coding/
 ├── README.md                                   ← You are here
+├── .claude-plugin/
+│   └── plugin.json                             # Claude Code plugin manifest
+├── commands/                                   # Claude Code slash commands
+│   ├── dev.md                                  #   /dev [description]
+│   ├── scout.md                                #   /scout [area]
+│   └── verify.md                               #   /verify [scope]
+├── agents/                                     # Claude Code agents
+│   ├── stack-detective.md                      # Project stack detection (sonnet)
+│   ├── rails-specialist.md                     # Rails 8 code tracing (sonnet)
+│   ├── astro-specialist.md                     # Astro 5.x code tracing (sonnet)
+│   ├── tailwind-ui.md                          # Tailwind/UI patterns (sonnet)
+│   ├── implementation-planner.md               # Decisive blueprint (opus)
+│   ├── bug-hunter.md                           # Correctness review (sonnet)
+│   └── convention-enforcer.md                  # CLAUDE.md compliance (sonnet)
 ├── scripts/
-│   └── install-global.sh                       # Symlinks everything into ~/.cursor/
+│   └── install-global.sh                       # Symlinks .cursor/ into ~/.cursor/
 ├── plans/                                       # Saved plans (not Cursor config)
-└── .cursor/
+└── .cursor/                                    # Cursor tooling (untouched by Claude Code)
     ├── rules/                                   # Global Cursor rules
     │   ├── code-review.mdc                      # Triggers the code-review skill
     │   └── planning.mdc                         # Persist plans to plans/ directory
