@@ -15,7 +15,7 @@ A streamlined 4-phase development workflow that parallelizes stack-aware agents 
 /plugin marketplace add DanielOchoa/ai-coding
 
 # Local:
-/plugin marketplace add /Users/danielochoa/Documents/projects/ai-coding
+/plugin marketplace add <path-to-repo>/ai-coding
 
 # Then install the plugin:
 /plugin install dev@danielochoa-tools
