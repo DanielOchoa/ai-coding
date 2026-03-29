@@ -1,5 +1,5 @@
 {
-  "name": "dev-orchestrator",
+  "name": "dev",
   "description": "Streamlined dev workflow orchestrator with parallel stack-aware agents",
   "version": "1.0.0"
 }

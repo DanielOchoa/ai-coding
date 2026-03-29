@@ -2,7 +2,7 @@
 
 Personal AI coding workspace — one repo for all AI dev tooling.
 
-Includes a **Claude Code plugin** (dev orchestrator with parallel stack-aware agents) and **Cursor tooling** (code review orchestrator with parallel reviewer agents). Claude Code ignores `.cursor/`; Cursor ignores `.claude-plugin/` and `commands/`/`agents/`. Both coexist cleanly.
+Includes a **Claude Code plugin marketplace** (dev orchestrator with parallel stack-aware agents) and **Cursor tooling** (code review orchestrator with parallel reviewer agents). Claude Code ignores `.cursor/`; Cursor ignores `.claude-plugin/` and `plugins/`. Both coexist cleanly.
 
 ## Claude Code Plugin — Dev Orchestrator
 
@@ -11,18 +11,25 @@ A streamlined 4-phase development workflow that parallelizes stack-aware agents 
 ### Install
 
 ```bash
-claude plugin add /Users/danielochoa/Documents/projects/ai-coding
+# From GitHub (anyone):
+/plugin marketplace add DanielOchoa/ai-coding
+
+# Local:
+/plugin marketplace add /Users/danielochoa/Documents/projects/ai-coding
+
+# Then install the plugin:
+/plugin install dev@danielochoa-tools
 ```
 
-Restart Claude Code to load the plugin.
+After marketplace install, commands become namespaced: `/dev:dev`, `/dev:scout`, `/dev:verify`.
 
 ### Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/dev [description]` | Full 4-phase workflow: Context → Plan → Build → Verify + Ship |
-| `/scout [area]` | Quick codebase exploration with stack detection |
-| `/verify [scope]` | Post-implementation quality check + docs + commit |
+| `/dev:dev [description]` | Full 4-phase workflow: Context → Plan → Build → Verify + Ship |
+| `/dev:scout [area]` | Quick codebase exploration with stack detection |
+| `/dev:verify [scope]` | Post-implementation quality check + docs + commit |
 
 ### Agents
 
@@ -36,7 +43,7 @@ Restart Claude Code to load the plugin.
 | bug-hunter | sonnet | Post-impl review — logic errors, edge cases (confidence >= 80) |
 | convention-enforcer | sonnet | CLAUDE.md compliance checking against the diff |
 
-### How `/dev` Works
+### How `/dev:dev` Works
 
 1. **Context** (~10s, parallel) — stack-detective + specialist + tailwind-ui (conditional)
 2. **Plan** (~30s) — implementation-planner (opus) produces one decisive blueprint
@@ -107,19 +114,23 @@ The install script uses per-file/per-directory symlinks specifically to avoid re
 ai-coding/
 ├── README.md                                   ← You are here
 ├── .claude-plugin/
-│   └── plugin.json                             # Claude Code plugin manifest
-├── commands/                                   # Claude Code slash commands
-│   ├── dev.md                                  #   /dev [description]
-│   ├── scout.md                                #   /scout [area]
-│   └── verify.md                               #   /verify [scope]
-├── agents/                                     # Claude Code agents
-│   ├── stack-detective.md                      # Project stack detection (sonnet)
-│   ├── rails-specialist.md                     # Rails 8 code tracing (sonnet)
-│   ├── astro-specialist.md                     # Astro 5.x code tracing (sonnet)
-│   ├── tailwind-ui.md                          # Tailwind/UI patterns (sonnet)
-│   ├── implementation-planner.md               # Decisive blueprint (opus)
-│   ├── bug-hunter.md                           # Correctness review (sonnet)
-│   └── convention-enforcer.md                  # CLAUDE.md compliance (sonnet)
+│   └── marketplace.json                        # Plugin marketplace manifest
+├── plugins/
+│   └── dev/                                    # Dev orchestrator plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json                     # Plugin manifest
+│       ├── commands/                            # Slash commands (/dev:dev, /dev:scout, /dev:verify)
+│       │   ├── dev.md
+│       │   ├── scout.md
+│       │   └── verify.md
+│       └── agents/                              # Stack-aware agents
+│           ├── stack-detective.md               # Project stack detection (sonnet)
+│           ├── rails-specialist.md              # Rails 8 code tracing (sonnet)
+│           ├── astro-specialist.md              # Astro 5.x code tracing (sonnet)
+│           ├── tailwind-ui.md                   # Tailwind/UI patterns (sonnet)
+│           ├── implementation-planner.md        # Decisive blueprint (opus)
+│           ├── bug-hunter.md                    # Correctness review (sonnet)
+│           └── convention-enforcer.md           # CLAUDE.md compliance (sonnet)
 ├── scripts/
 │   └── install-global.sh                       # Symlinks .cursor/ into ~/.cursor/
 ├── plans/                                       # Saved plans (not Cursor config)
@@ -163,6 +174,12 @@ Security, performance, and testing reviewers use `model: fast` for speed.
 Trigger with: "review this PR", "code review", or provide a GitHub PR URL.
 
 ## Adding New Content
+
+### New Claude Code plugin
+
+Create a directory under `plugins/<name>/` with `.claude-plugin/plugin.json`, `commands/`, and/or `agents/`.
+Add an entry to `.claude-plugin/marketplace.json` under `plugins[]`.
+After pushing, anyone can install with `/plugin install <name>@danielochoa-tools`.
 
 ### New rule
 

@@ -1,0 +1,13 @@
+{
+  "name": "danielochoa-tools",
+  "owner": {
+    "name": "Daniel Ochoa"
+  },
+  "plugins": [
+    {
+      "name": "dev",
+      "source": "./plugins/dev",
+      "description": "Streamlined dev workflow orchestrator with parallel stack-aware agents"
+    }
+  ]
+}
