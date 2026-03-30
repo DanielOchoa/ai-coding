@@ -15,7 +15,7 @@ Launch these agents **simultaneously** using the Task tool:
 2. **Stack specialist** (pick one based on stack-detective's early signals or file inspection):
    - If the project has a `Gemfile` or `config/routes.rb` → launch **rails-specialist**
    - If the project has an `astro.config.*` file → launch **astro-specialist**
-   - If unclear, check for these files first with Glob, then launch the appropriate specialist
+   - For any other stack → launch **code-tracer**
    - The specialist should focus its exploration on the area the user specified
 
 Both agents run in parallel. Wait for both to complete.

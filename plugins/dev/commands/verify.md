@@ -29,4 +29,4 @@ After the quality check passes, auto-run:
 1. **docs-updater** agent — Update documentation to reflect the current state of changes.
 2. **git-commit-author** agent — Analyze the changes and generate a commit message.
 
-Present the commit message to the user. The user decides whether to commit.
+Present the commit message to the user. **STOP and wait for explicit user approval before running git commit or git push.** Never commit or push automatically.

@@ -38,6 +38,7 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 | stack-detective | sonnet | Fast project detection, reads CLAUDE.md, returns structured context |
 | rails-specialist | sonnet | Rails 8 code tracing — MVC, ActiveRecord, Turbo/Stimulus |
 | astro-specialist | sonnet | Astro 5.x code tracing — content collections, components, SSG |
+| code-tracer | sonnet | Generic code path tracer — adapts to any stack as specialist fallback |
 | tailwind-ui | sonnet | Tailwind CSS + frontend patterns, design system analysis |
 | implementation-planner | **opus** | One decisive blueprint — files, order, tests, risks |
 | bug-hunter | sonnet | Post-impl review — logic errors, edge cases (confidence >= 80) |
@@ -127,6 +128,7 @@ ai-coding/
 │           ├── stack-detective.md               # Project stack detection (sonnet)
 │           ├── rails-specialist.md              # Rails 8 code tracing (sonnet)
 │           ├── astro-specialist.md              # Astro 5.x code tracing (sonnet)
+│           ├── code-tracer.md                   # Generic code path tracer (sonnet)
 │           ├── tailwind-ui.md                   # Tailwind/UI patterns (sonnet)
 │           ├── implementation-planner.md        # Decisive blueprint (opus)
 │           ├── bug-hunter.md                    # Correctness review (sonnet)

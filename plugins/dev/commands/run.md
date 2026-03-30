@@ -15,7 +15,7 @@ Launch these agents **simultaneously** using the Task tool:
 2. **Stack specialist** (required, pick one based on stack-detective's early signals or file inspection):
    - If the project has a `Gemfile` or `config/routes.rb` → launch **rails-specialist**
    - If the project has an `astro.config.*` file → launch **astro-specialist**
-   - If unclear, check for these files first with Glob, then launch the appropriate specialist
+   - For any other stack → launch **code-tracer**
    - The specialist should trace code paths relevant to the user's task description
 
 3. **tailwind-ui** (conditional) — Only launch if the task description mentions UI, frontend, styling, components, layout, design, or visual changes. Skip for backend-only tasks.
@@ -62,7 +62,7 @@ After quality checks pass, auto-run:
 1. **docs-updater** agent — Update documentation to reflect changes
 2. **git-commit-author** agent — Generate a commit message for the changes
 
-Present the commit message to the user. The user decides whether to commit.
+Present the commit message to the user. **STOP and wait for explicit user approval before running git commit or git push.** Never commit or push automatically.
 
 ## Orchestration Rules
 
