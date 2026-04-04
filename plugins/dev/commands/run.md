@@ -38,6 +38,17 @@ The planner produces ONE decisive blueprint:
 
 Present the plan to the user. Wait for "go" or adjustments. Do NOT proceed to Phase 3 without user approval.
 
+### Save the approved plan
+
+After the user approves (and after incorporating any adjustments), save the final plan as a markdown file:
+
+- **Path**: `<project_dir>/plans/<MM-DD-YY-description>.md` (e.g., `plans/03-30-26-add-user-auth.md`)
+- **Description**: short kebab-case slug derived from the task (3-5 words max)
+- Create the `plans/` directory if it doesn't exist
+- The file should contain the full implementation blueprint as produced by the planner, including the task summary, approach, files, execution order, test strategy, and risks
+
+This creates a persistent archive of what was planned and why — useful for historical reference and as context for future agents.
+
 ## Phase 3: Build (variable)
 
 Implement the plan directly in the main session (no agent delegation):

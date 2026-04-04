@@ -58,6 +58,20 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 - **Reference existing agents**: docs-updater and git-commit-author are invoked from `~/.claude/agents/` — updates propagate automatically.
 - **4 phases, not 7**: No discovery phase, no 3-option architecture menus, no serial blocking questions.
 
+### Future Work
+
+Potential improvements to explore once the current orchestrator-worker pattern has been stress-tested across more projects.
+
+| Idea | What | Why |
+|------|------|-----|
+| **Agent Teams for Phase 3** | Use Claude Code's experimental [Agent Teams](https://code.claude.com/docs/en/agent-teams) (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) during the Build phase. Teammates get their own context windows, a shared task list, and peer-to-peer messaging. | Enables true parallel implementation across multiple files instead of sequential single-session builds. |
+| **Hierarchical decomposition** | Spawn "feature leads" that further decompose into sub-specialists, instead of flat orchestrator → workers. | Keeps each agent's context window clean as task complexity grows beyond 5+ parallel concerns. |
+| **Competing hypotheses debugging** | Replace single bug-hunter with a team of 3 agents testing different theories and actively disproving each other. | Single-reviewer debugging anchors on the first plausible explanation. Adversarial investigation finds root causes faster. |
+| **Git worktrees per agent** | Give each Build-phase agent its own worktree so they can edit files in parallel without conflicts, then merge. | Unlocks parallel file editing — currently blocked by single-session Phase 3. |
+| **Reuse agents as teammate types** | Existing agent definitions (rails-specialist, code-tracer, etc.) can be referenced directly as Agent Team teammate types — no rewrite needed. | Smooth migration path: same agents, different coordination model. |
+
+References: [The Code Agent Orchestra (Addy Osmani)](https://addyosmani.com/blog/code-agent-orchestra/), [Claude Code Agent Teams docs](https://code.claude.com/docs/en/agent-teams), [Conductor vs. Swarm Architecture Guide](https://agixtech.com/conductor-vs-swarm-multi-agent-ai-orchestration/)
+
 ---
 
 ## Cursor Tooling — Code Review Orchestrator
