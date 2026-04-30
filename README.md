@@ -41,7 +41,7 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 | code-tracer | sonnet | Generic code path tracer — adapts to any stack as specialist fallback |
 | tailwind-ui | sonnet | Tailwind CSS + frontend patterns, design system analysis |
 | implementation-planner | **opus** | One decisive blueprint — files, order, tests, risks |
-| bug-hunter | sonnet | Post-impl review — logic errors, edge cases (confidence >= 80) |
+| bug-hunter | **opus** | Post-impl review — logic errors, edge cases (confidence >= 80) |
 | convention-enforcer | sonnet | CLAUDE.md compliance checking against the diff |
 
 ### How `/dev:run` Works
@@ -54,7 +54,7 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 ### Design Principles
 
 - **Generic agents, runtime context**: Agents have stack-level expertise but zero business-specific knowledge. All project context comes from reading CLAUDE.md at runtime. Safe for a public repo.
-- **Opus for the planner, sonnet for the rest**: Maximum reasoning quality where it matters most.
+- **Opus where reasoning matters**: Planner and bug-hunter run on opus; the rest run on sonnet for speed.
 - **Reference existing agents**: docs-updater and git-commit-author are invoked from `~/.claude/agents/` — updates propagate automatically.
 - **4 phases, not 7**: No discovery phase, no 3-option architecture menus, no serial blocking questions.
 
@@ -69,6 +69,10 @@ Potential improvements to explore once the current orchestrator-worker pattern h
 | **Competing hypotheses debugging** | Replace single bug-hunter with a team of 3 agents testing different theories and actively disproving each other. | Single-reviewer debugging anchors on the first plausible explanation. Adversarial investigation finds root causes faster. |
 | **Git worktrees per agent** | Give each Build-phase agent its own worktree so they can edit files in parallel without conflicts, then merge. | Unlocks parallel file editing — currently blocked by single-session Phase 3. |
 | **Reuse agents as teammate types** | Existing agent definitions (rails-specialist, code-tracer, etc.) can be referenced directly as Agent Team teammate types — no rewrite needed. | Smooth migration path: same agents, different coordination model. |
+| **Autonomy-first / YOLO mode** | A `/dev:run --auto` flag (or sibling `/dev:auto` command) that runs the full pipeline without the plan-approval gate, auto-applies bug-hunter fixes above a confidence threshold, and stops only at pre-commit. Pairs with running Claude in a sandboxed devcontainer with `--dangerously-skip-permissions`. | Unlocks unattended runs (overnight jobs, batch refactors, container/cloud sandboxes). The current flow's hard stop at plan approval is the right default *only* when a human is at the keyboard. |
+| **Specialist breadth** | First-class specialists for Next.js, Python (Django/FastAPI), and Go — currently only Rails and Astro have dedicated tracers; everything else falls through to the generic `code-tracer`. | The generic tracer is a reasonable fallback, but stack-aware specialists produce sharper traces (knows where to look first, recognizes idioms). Diminishing returns past the top ~5 stacks. |
+| **Continuous verify (delta mode)** | A long-running `/dev:verify --watch` that re-runs bug-hunter + convention-enforcer against each new commit or save during Phase 3, instead of one terminal pass. | Catches issues while the context is fresh and the diff is small. Currently all verification is end-of-build, so problems get bundled and lose their causal trail. |
+| **Product manager agent (opt-in)** | A `pm-agent` that turns vague task descriptions into concrete acceptance criteria and a "definition of done" before the planner sees the task. Either an opt-in `/dev:pm` command or an automatic Phase 0 that short-circuits when the task is already concrete. | The planner is built to be decisive — it works best with a sharp task. Fuzzy asks ("improve onboarding") force the planner to pick a target out of thin air. A PM pass upstream raises plan quality without diluting the planner's job. **Tradeoff:** must not become a questionnaire; should produce a one-paragraph spec, not a discovery phase. |
 
 References: [The Code Agent Orchestra (Addy Osmani)](https://addyosmani.com/blog/code-agent-orchestra/), [Claude Code Agent Teams docs](https://code.claude.com/docs/en/agent-teams), [Conductor vs. Swarm Architecture Guide](https://agixtech.com/conductor-vs-swarm-multi-agent-ai-orchestration/)
 
