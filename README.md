@@ -35,14 +35,14 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| stack-detective | sonnet | Fast project detection, reads CLAUDE.md, returns structured context |
+| stack-detective | haiku | Fast project detection, reads CLAUDE.md, returns structured context |
 | rails-specialist | sonnet | Rails 8 code tracing — MVC, ActiveRecord, Turbo/Stimulus |
 | astro-specialist | sonnet | Astro 5.x code tracing — content collections, components, SSG |
 | code-tracer | sonnet | Generic code path tracer — adapts to any stack as specialist fallback |
 | tailwind-ui | sonnet | Tailwind CSS + frontend patterns, design system analysis |
 | implementation-planner | **opus** | One decisive blueprint — files, order, tests, risks |
 | bug-hunter | **opus** | Post-impl review — logic errors, edge cases (confidence >= 80) |
-| convention-enforcer | sonnet | CLAUDE.md compliance checking against the diff |
+| convention-enforcer | haiku | CLAUDE.md compliance checking against the diff |
 
 ### How `/dev:run` Works
 
@@ -54,7 +54,7 @@ After marketplace install, commands become namespaced: `/dev:run`, `/dev:scout`,
 ### Design Principles
 
 - **Generic agents, runtime context**: Agents have stack-level expertise but zero business-specific knowledge. All project context comes from reading CLAUDE.md at runtime. Safe for a public repo.
-- **Opus where reasoning matters**: Planner and bug-hunter run on opus; the rest run on sonnet for speed.
+- **Right model for the job**: Planner and bug-hunter run on opus (deep reasoning, inherits session effort — `xhigh` recommended). Tracers and UI analysis run on sonnet. Pure pattern-matching agents (stack-detective, convention-enforcer) run on haiku for speed and cost.
 - **Reference existing agents**: docs-updater and git-commit-author are invoked from `~/.claude/agents/` — updates propagate automatically.
 - **4 phases, not 7**: No discovery phase, no 3-option architecture menus, no serial blocking questions.
 
